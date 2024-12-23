@@ -1,0 +1,21 @@
+#Este script añadido en PBI sirve para corregir gramática de textos en castellano dentro de tus pasos en PowerBI
+#ES NECESARIO DESCARGAR pip install language_tool_python Y EN LA PRIMERA EJECUCIÓN SE DESCARGA EL DICICONARIO EN CRISTIANO, TIENE QUE SER FUERA DE LA VPN, UNA VEZ DESCARGADO YA PUEDES EJECUTAR DENTRO DE LA VPN.
+import language_tool_python
+
+# Instanciar el objeto LanguageTool
+tool = language_tool_python.LanguageTool('es')
+
+# cambiar a str para que no de error float, por alguna razón tras procesar texto en scripts de python hagan lo que hagan incluso operaciones simples cambia el tipo de dato, he probado de todo y finalmente opto por añadir esta linea a todos mis scrips para PBI
+dataset['Historia del Ticket_procesado'] = dataset['Historia del Ticket_procesado'].fillna("").astype(str)
+
+
+# Función para corregir gramática en español
+def corregir_gramatica(texto):
+    # Obtener las correcciones gramaticales del texto
+    correcciones = tool.check(texto)
+    # Obtener el texto corregido
+    texto_corregido = language_tool_python.utils.correct(texto, correcciones)
+    return texto_corregido
+
+# Aplicar la corrección gramatical en la columna "comentarios"
+dataset['Historia del Ticket_procesado'] = dataset['Historia del Ticket_procesado'].apply(corregir_gramatica)
