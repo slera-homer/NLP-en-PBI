@@ -17,5 +17,5 @@ def corregir_gramatica(texto):
     texto_corregido = language_tool_python.utils.correct(texto, correcciones)
     return texto_corregido
 
-# Aplicar la corrección gramatical en la columna "comentarios"
+# Aplicar la corrección gramatical en la columna "Historia del Ticket_procesado"
 dataset['Historia del Ticket_procesado'] = dataset['Historia del Ticket_procesado'].apply(corregir_gramatica)
